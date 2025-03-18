@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["ESNext", "DOM"],
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "strict": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true,
+    "paths": {
+      "@users/*": ["src/users/*"],
+      "@types/*": ["src/types/*"],
+      "@middleware/*": ["src/middleware/*"],
+      "@logger/*": ["src/logger/*"],
+      "@config/*": ["src/config/*"],
+      "@common/*": ["src/common/*"],
+      "@auth/*": ["src/auth/*"],
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src", "vitest.config.mjs", "test/vitest.config.mjs", "prisma"],
+  "exclude": ["lib"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"],
+    "files": true
+  }
+}

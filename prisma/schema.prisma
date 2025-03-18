@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator erdSvg {
+  provider = "prisma-erd-generator"
+  output   = "../docs/ERD.svg"
+}
+
+generator erdPng {
+  provider = "prisma-erd-generator"
+  output   = "../docs/ERD.png"
+}
+
+generator prismaClassGenerator {
+  provider               = "prisma-class-generator"
+  output                 = "../src/_gen/prisma-classes"
+  dryRun                 = false
+  useSwagger             = true
+  separateRelationFields = true
+}
+
+model User {
+  id               Int       @id @default(autoincrement())
+  email            String    @unique @db.VarChar(70)
+  username         String    @db.VarChar(50)
+  password         String    @db.VarChar(150)
+  isEmailConfirmed Boolean   @default(false) @map("is_email_confirmed")
+  role             Int       @default(dbgenerated("1"))
+  state            Int       @default(dbgenerated("1"))
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  deletedAt        DateTime? @map("deleted_at")
+  lastLogin        DateTime? @map("last_login")
+
+  profile Profile?
+
+  @@map("user")
+}
+
+model Profile {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @unique @map("user_id")
+  buffer     Bytes    @db.MediumBlob
+  mimeType   String   @map("mime_type") @db.VarChar(20)
+  size       Int
+  originName String   @map("origin_name") @db.VarChar(50)
+  filename   String   @db.VarChar(150)
+  createdAt  DateTime @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("profile")
+}
