@@ -1,0 +1,752 @@
+[
+  {
+    "name": "User",
+    "dbName": "user",
+    "schema": null,
+    "fields": [
+      {
+        "name": "id",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": true,
+        "isReadOnly": false,
+        "hasDefaultValue": true,
+        "type": "Int",
+        "nativeType": null,
+        "default": {
+          "name": "autoincrement",
+          "args": []
+        },
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "email",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": true,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "String",
+        "nativeType": [
+          "VarChar",
+          [
+            "70"
+          ]
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "username",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "String",
+        "nativeType": [
+          "VarChar",
+          [
+            "50"
+          ]
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "password",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "String",
+        "nativeType": [
+          "VarChar",
+          [
+            "150"
+          ]
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "isEmailConfirmed",
+        "dbName": "is_email_confirmed",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": true,
+        "type": "Boolean",
+        "nativeType": null,
+        "default": false,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "role",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": true,
+        "type": "Int",
+        "nativeType": null,
+        "default": {
+          "name": "dbgenerated",
+          "args": [
+            "1"
+          ]
+        },
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "state",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": true,
+        "type": "Int",
+        "nativeType": null,
+        "default": {
+          "name": "dbgenerated",
+          "args": [
+            "1"
+          ]
+        },
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "salt",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "String",
+        "nativeType": [
+          "VarChar",
+          [
+            "100"
+          ]
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "iteration",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "Int",
+        "nativeType": [
+          "UnsignedInt",
+          []
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "createdAt",
+        "dbName": "created_at",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": true,
+        "type": "DateTime",
+        "nativeType": null,
+        "default": {
+          "name": "now",
+          "args": []
+        },
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "updatedAt",
+        "dbName": "updated_at",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "DateTime",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": true
+      },
+      {
+        "name": "deletedAt",
+        "dbName": "deleted_at",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": false,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "DateTime",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "lastLogin",
+        "dbName": "last_login",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": false,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "DateTime",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "profile",
+        "kind": "object",
+        "isList": false,
+        "isRequired": false,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "Profile",
+        "nativeType": null,
+        "relationName": "ProfileToUser",
+        "relationFromFields": [],
+        "relationToFields": [],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "boards",
+        "kind": "object",
+        "isList": true,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "Board",
+        "nativeType": null,
+        "relationName": "BoardToUser",
+        "relationFromFields": [],
+        "relationToFields": [],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "comments",
+        "kind": "object",
+        "isList": true,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "Comment",
+        "nativeType": null,
+        "relationName": "CommentToUser",
+        "relationFromFields": [],
+        "relationToFields": [],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      }
+    ],
+    "primaryKey": null,
+    "uniqueFields": [],
+    "uniqueIndexes": [],
+    "isGenerated": false
+  },
+  {
+    "name": "Profile",
+    "dbName": "profile",
+    "schema": null,
+    "fields": [
+      {
+        "name": "id",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": true,
+        "isReadOnly": false,
+        "hasDefaultValue": true,
+        "type": "Int",
+        "nativeType": null,
+        "default": {
+          "name": "autoincrement",
+          "args": []
+        },
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "userId",
+        "dbName": "user_id",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": true,
+        "isId": false,
+        "isReadOnly": true,
+        "hasDefaultValue": false,
+        "type": "Int",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "buffer",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "Bytes",
+        "nativeType": [
+          "MediumBlob",
+          []
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "mimeType",
+        "dbName": "mime_type",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "String",
+        "nativeType": [
+          "VarChar",
+          [
+            "20"
+          ]
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "size",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "Int",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "originName",
+        "dbName": "origin_name",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "String",
+        "nativeType": [
+          "VarChar",
+          [
+            "50"
+          ]
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "filename",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "String",
+        "nativeType": [
+          "VarChar",
+          [
+            "150"
+          ]
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "createdAt",
+        "dbName": "created_at",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "DateTime",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "user",
+        "kind": "object",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "User",
+        "nativeType": null,
+        "relationName": "ProfileToUser",
+        "relationFromFields": [
+          "userId"
+        ],
+        "relationToFields": [
+          "id"
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      }
+    ],
+    "primaryKey": null,
+    "uniqueFields": [],
+    "uniqueIndexes": [],
+    "isGenerated": false
+  },
+  {
+    "name": "Board",
+    "dbName": "board",
+    "schema": null,
+    "fields": [
+      {
+        "name": "id",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": true,
+        "isReadOnly": false,
+        "hasDefaultValue": true,
+        "type": "Int",
+        "nativeType": null,
+        "default": {
+          "name": "autoincrement",
+          "args": []
+        },
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "userId",
+        "dbName": "user_id",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": true,
+        "hasDefaultValue": false,
+        "type": "Int",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "title",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "String",
+        "nativeType": [
+          "VarChar",
+          [
+            "50"
+          ]
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "content",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "String",
+        "nativeType": [
+          "LongText",
+          []
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "createdAt",
+        "dbName": "created_at",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": true,
+        "type": "DateTime",
+        "nativeType": null,
+        "default": {
+          "name": "now",
+          "args": []
+        },
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "updatedAt",
+        "dbName": "updated_at",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "DateTime",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": true
+      },
+      {
+        "name": "deletedAt",
+        "dbName": "deleted_at",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": false,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "DateTime",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "user",
+        "kind": "object",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "User",
+        "nativeType": null,
+        "relationName": "BoardToUser",
+        "relationFromFields": [
+          "userId"
+        ],
+        "relationToFields": [
+          "id"
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "comments",
+        "kind": "object",
+        "isList": true,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "Comment",
+        "nativeType": null,
+        "relationName": "BoardToComment",
+        "relationFromFields": [],
+        "relationToFields": [],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      }
+    ],
+    "primaryKey": null,
+    "uniqueFields": [],
+    "uniqueIndexes": [],
+    "isGenerated": false
+  },
+  {
+    "name": "Comment",
+    "dbName": "comment",
+    "schema": null,
+    "fields": [
+      {
+        "name": "id",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": true,
+        "isReadOnly": false,
+        "hasDefaultValue": true,
+        "type": "Int",
+        "nativeType": null,
+        "default": {
+          "name": "autoincrement",
+          "args": []
+        },
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "userId",
+        "dbName": "user_id",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": true,
+        "hasDefaultValue": false,
+        "type": "Int",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "boardId",
+        "dbName": "board_id",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": true,
+        "hasDefaultValue": false,
+        "type": "Int",
+        "nativeType": null,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "content",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "String",
+        "nativeType": [
+          "VarChar",
+          [
+            "200"
+          ]
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "user",
+        "kind": "object",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "User",
+        "nativeType": null,
+        "relationName": "CommentToUser",
+        "relationFromFields": [
+          "userId"
+        ],
+        "relationToFields": [
+          "id"
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "board",
+        "kind": "object",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "hasDefaultValue": false,
+        "type": "Board",
+        "nativeType": null,
+        "relationName": "BoardToComment",
+        "relationFromFields": [
+          "boardId"
+        ],
+        "relationToFields": [
+          "id"
+        ],
+        "isGenerated": false,
+        "isUpdatedAt": false
+      }
+    ],
+    "primaryKey": null,
+    "uniqueFields": [],
+    "uniqueIndexes": [],
+    "isGenerated": false
+  }
+]

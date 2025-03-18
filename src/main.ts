@@ -1,16 +1,19 @@
 import { CommonConf } from '@config/commonConf';
 import { SecretConf } from '@config/secretConf';
+import { LoggerService } from '@logger/logger.service';
+import { GlobalExceptionFilter } from '@middleware/global-exception.filter';
+import { GlobalResponseInterceptor } from '@middleware/global-response.interceptor';
+import { PermissionGuard } from '@middleware/permission.guard';
 import { VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { useContainer } from 'class-validator';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { AppModule } from './app.module';
 import { CommonService } from './common/common.service';
-import { PermissionGuard } from '@middleware/permission.guard';
-import { LoggerService } from '@logger/logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -40,6 +43,8 @@ async function bootstrap() {
   app.enableVersioning({ type: VersioningType.URI });
   app.setGlobalPrefix('api');
   app.useGlobalGuards(new PermissionGuard(loggerService));
+  app.useGlobalFilters(new GlobalExceptionFilter());
+  app.useGlobalInterceptors(new GlobalResponseInterceptor());
 
   /* Swagger Docs */
   const config = new DocumentBuilder()
@@ -63,6 +68,8 @@ async function bootstrap() {
       docExpansion: 'none',
     },
   });
+
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   await app.listen(common.port, common.host);
 

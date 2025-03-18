@@ -7,6 +7,7 @@ import {
 
 @Injectable()
 export class LoggerService {
+  protected useLevel: number = 2;
   protected context: string = DEFAULT_LOG_CONTEXT;
   protected logLevels = ['log', 'info', 'debug', 'warn', 'error'] as const;
   protected logIcons = ['📝', '✨', '🐛', '🚨', '❌'];
@@ -32,12 +33,16 @@ export class LoggerService {
 
   private bindConsoleFeatures() {
     for (const logLevel of this.logLevels) {
+      const index = this.logLevels.indexOf(logLevel);
       Object.defineProperty(this, logLevel, {
         get: () => {
-          return console[logLevel].bind(
-            this,
-            `[${this.context}] ${this.timestamp} `,
-          ) as void;
+          if (this.useLevel > index) {
+            return console[logLevel].bind(
+              this,
+              `[${this.context}] ${this.timestamp} `,
+            ) as void;
+          }
+          return () => {};
         },
       });
     }

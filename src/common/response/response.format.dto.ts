@@ -1,20 +1,22 @@
-import { HttpStatus } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
+import { ResponseFormat } from './response.format';
 
-export function ResponseFormatDto<T>(data: T) {
-  class ResponseFormatDto {
-    @ApiProperty({ name: 'status', example: 200 })
-    status!: HttpStatus;
+export function SuccessResponseFormat<T>(status: number, data: T) {
+  const format = new ResponseFormat();
+  format.ok = [200, 201].includes(status);
+  format.status = status;
+  format.payload = data;
+  return format;
+}
 
-    @ApiProperty({ name: 'ok', example: true })
-    ok!: boolean;
-
-    @ApiProperty({ name: 'payload', example: data })
-    payload!: T;
-
-    @ApiProperty({ name: 'message', example: undefined })
-    message?: string;
-  }
-
-  return class extends ResponseFormatDto {};
+export function ErrorResponseFormat(
+  status: number,
+  message: any,
+  detail?: string,
+) {
+  const format = new ResponseFormat();
+  format.ok = [200, 201].includes(status);
+  format.status = status;
+  format.message = message;
+  format.detail = detail;
+  return format;
 }

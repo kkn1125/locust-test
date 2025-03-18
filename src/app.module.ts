@@ -12,6 +12,8 @@ import secretConf from './config/secretConf';
 import { MiddlewareConfigProxy, NestModule } from '@nestjs/common/interfaces';
 import { LoggerMiddleware } from '@middleware/logger.middleware';
 import { LoggerModule } from '@logger/logger.module';
+import { BoardsModule } from './boards/boards.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { LoggerModule } from '@logger/logger.module';
     AuthModule,
     UsersModule,
     LoggerModule,
+    BoardsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService, UtilsService],
