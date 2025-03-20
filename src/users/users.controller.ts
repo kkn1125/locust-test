@@ -7,10 +7,16 @@ import {
   Param,
   Delete,
   ValidationPipe,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Request } from 'express';
+import { JwtAuthGuard } from '@auth/jwt-auth.guard';
+import { ExistsGuard } from '@common/exists.guard';
+import { PropsValidationPipe } from '@common/props-validation.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -18,29 +24,41 @@ export class UsersController {
 
   @Post()
   create(
-    @Body(new ValidationPipe({ stopAtFirstError: true }))
+    @Body(
+      new ValidationPipe({ stopAtFirstError: true }),
+      new PropsValidationPipe({
+        exclude: ['createdAt', 'updatedAt', 'deletedAt'],
+      }),
+    )
     createUserDto: CreateUserDto,
   ) {
     return this.usersService.create(createUserDto);
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Req() req: Request) {
+    console.log(req.session);
+    return this.usersService.findAll(req.redisToken);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @UseGuards(JwtAuthGuard, ExistsGuard)
+  @Get('me')
+  findOne(@Req() req: Request) {
+    const user = req.user;
+    return this.usersService.findOne(req.redisToken, user.id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  @UseGuards(JwtAuthGuard, ExistsGuard)
+  @Patch('me')
+  update(@Req() req: Request, @Body() updateUserDto: UpdateUserDto) {
+    const user = req.user;
+    return this.usersService.update(user.id, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @UseGuards(JwtAuthGuard, ExistsGuard)
+  @Delete('me')
+  remove(@Req() req: Request) {
+    const user = req.user;
+    return this.usersService.remove(user.id);
   }
 }

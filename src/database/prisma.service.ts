@@ -11,6 +11,14 @@ const prismaExtension = (
   commonService: CommonService,
 ) => {
   const secret = commonService.getConfig<SecretConf>('secret');
+  const userSelect = {
+    id: true,
+    username: true,
+    email: true,
+    role: true,
+    state: true,
+    createdAt: true,
+  };
 
   async function softDelete<
     Model,
@@ -49,11 +57,45 @@ const prismaExtension = (
     return hash === storedPassword;
   }
 
+  function isExists(user: UserTokenData) {
+    return client.user.findUniqueOrThrow({
+      where: { id: user.id },
+      select: userSelect,
+    });
+  }
+
   const extension = Prisma.defineExtension({
     name: 'customExtension',
     model: {
       $allModels: { softDelete },
-      user: { createHashPassword, verifyPassword },
+      user: {
+        isExists,
+        createHashPassword,
+        verifyPassword,
+        get select() {
+          return userSelect;
+        },
+      },
+    },
+    query: {
+      $allModels: {
+        $allOperations: ({ model, operation, args, query }) => {
+          if (operation.startsWith('find')) {
+            if ('where' in args && typeof args.where === 'object') {
+              Object.assign(args.where, {
+                deletedAt: null,
+              });
+            } else {
+              Object.assign(args, {
+                where: {
+                  deletedAt: null,
+                },
+              });
+            }
+          }
+          return query(args);
+        },
+      },
     },
   });
 
@@ -73,10 +115,10 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
   async onModuleInit() {
     await this.$connect();
+    if (!this._client) this._client = prismaExtension(this, this.commonService);
   }
 
   get client() {
-    if (!this._client) this._client = prismaExtension(this, this.commonService);
     return this._client;
   }
 }

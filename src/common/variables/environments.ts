@@ -19,3 +19,6 @@ export const PORT = +(process.env.PORT || 8080);
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string;
 export const PASSWORD_SECRET_KEY = process.env.PASSWORD_SECRET_KEY as string;
 export const SESSION_SECRET_KEY = process.env.SESSION_SECRET_KEY as string;
+export const REDIS_HOST = process.env.REDIS_HOST as string;
+export const REDIS_PORT = +(process.env.REDIS_PORT ?? 6379);
+export const REDIS_PASSWORD = process.env.REDIS_PASSWORD as string;

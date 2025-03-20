@@ -34,7 +34,7 @@ export class CommonService {
   }
 
   getConfig<T extends (...args: any) => any>(
-    configName: 'common' | 'secret',
+    configName: 'common' | 'secret' | 'redis',
   ): ConfigType<T> {
     return this.configService.get<T>(configName, {
       infer: true,

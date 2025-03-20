@@ -1,9 +1,10 @@
+import { PrismaService } from '@/database/prisma.service';
+import { RedisService } from '@/database/redis.service';
+import { CommonService } from '@common/common.service';
+import { LoggerService } from '@logger/logger.service';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { LoggerService } from '@logger/logger.service';
-import { PrismaService } from '@/database/prisma.service';
-import { CommonService } from '@common/common.service';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +16,7 @@ export class UsersService {
     private readonly logger: LoggerService,
     private readonly prisma: PrismaService,
     private readonly commonService: CommonService,
+    private readonly redis: RedisService,
   ) {}
 
   create(createUserDto: CreateUserDto) {
@@ -26,30 +28,34 @@ export class UsersService {
         ...createUserDto,
         ...hashedData,
       },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        role: true,
-        state: true,
-        createdAt: true,
-      },
+      select: this.client.user.select,
     });
   }
 
-  findAll() {
-    return this.client.user.findMany();
+  findAll(token: string) {
+    return this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
-    return this.client.user.findUnique({ where: { id } });
+  findOne(token: string, id: number) {
+    console.log('id 검증', id);
+    return this.client.user.findUnique({
+      where: { id },
+      select: this.client.user.select,
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return this.client.user.update({ where: { id }, data: updateUserDto });
+    return this.client.user.update({
+      where: { id },
+      data: updateUserDto,
+      select: this.client.user.select,
+    });
   }
 
   remove(id: number) {
-    return this.client.user.softDelete({ where: { id } });
+    return this.client.user.softDelete({
+      where: { id },
+      select: this.client.user.select,
+    });
   }
 }

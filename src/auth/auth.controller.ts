@@ -1,9 +1,9 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { ApiCookieAuth } from '@nestjs/swagger';
 import { Response } from 'express';
+import { LocalAuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { LocalAuthGuard } from './auth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
@@ -16,7 +16,7 @@ export class AuthController {
     return this.authService.login(createAuthDto);
   }
 
-  @JwtAuthGuard()
+  @UseGuards(JwtAuthGuard)
   @ApiCookieAuth()
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {

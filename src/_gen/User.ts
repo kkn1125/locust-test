@@ -14,7 +14,6 @@ export class User {
   @ApiProperty({ type: String })
   password!: string;
   @ApiProperty({ type: Boolean })
-  
   @ApiProperty({ type: Number })
   role!: number;
   @ApiProperty({ type: Number })

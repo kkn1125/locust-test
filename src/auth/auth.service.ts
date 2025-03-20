@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
-import { CreateJwtDto } from './dto/create-jwt.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 
 @Injectable()
@@ -29,12 +28,12 @@ export class AuthService {
   }
 
   async login(loginAuthDto: LoginAuthDto) {
-    const userInfo = await this.prisma.user.findUnique({
+    const userInfo = await this.client.user.findUnique({
       where: { email: loginAuthDto.email },
       select: {
         id: true,
-        email: true,
         username: true,
+        email: true,
         role: true,
         state: true,
       },
