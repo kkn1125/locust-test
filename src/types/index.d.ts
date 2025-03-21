@@ -1,4 +1,3 @@
-import { ExtensionType } from '@/database/prisma.service';
 import { UserRole } from '@common/enums/UserRole';
 import { UserState } from '@common/enums/UserState';
 
@@ -10,6 +9,7 @@ export declare global {
     role: UserRole;
     state: UserState;
   };
+
   interface UserTokenData extends LoginResponseData {
     iat: number;
     exp: number;
@@ -29,11 +29,6 @@ export declare global {
     | 'role'
     | 'state'
     | 'createdAt';
-
-  // interface PrismaService {
-  //   user: ExtensionType['user'];
-  //   board: ExtensionType['board'];
-  // }
 }
 
 declare module 'express' {

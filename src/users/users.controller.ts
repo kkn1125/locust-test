@@ -17,6 +17,7 @@ import { Request } from 'express';
 import { JwtAuthGuard } from '@auth/jwt-auth.guard';
 import { ExistsGuard } from '@common/exists.guard';
 import { PropsValidationPipe } from '@common/props-validation.pipe';
+import { Public } from '@auth/is-public.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -35,27 +36,28 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Public()
   @Get()
   findAll(@Req() req: Request) {
     console.log(req.session);
     return this.usersService.findAll(req.redisToken);
   }
 
-  @UseGuards(JwtAuthGuard, ExistsGuard)
+  @UseGuards(ExistsGuard)
   @Get('me')
   findOne(@Req() req: Request) {
     const user = req.user;
     return this.usersService.findOne(req.redisToken, user.id);
   }
 
-  @UseGuards(JwtAuthGuard, ExistsGuard)
+  @UseGuards(ExistsGuard)
   @Patch('me')
   update(@Req() req: Request, @Body() updateUserDto: UpdateUserDto) {
     const user = req.user;
     return this.usersService.update(user.id, updateUserDto);
   }
 
-  @UseGuards(JwtAuthGuard, ExistsGuard)
+  @UseGuards(ExistsGuard)
   @Delete('me')
   remove(@Req() req: Request) {
     const user = req.user;

@@ -1,3 +1,4 @@
+import { RedisService } from '@/database/redis.service';
 import { SuccessResponseFormat } from '@common/response/response.format.dto';
 import {
   CallHandler,
@@ -7,9 +8,6 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { map, Observable, tap } from 'rxjs';
-import { RedisService } from '@/database/redis.service';
-
-const DEFAULT_EXPIRATION = 3600;
 
 @Injectable()
 export class GlobalResponseInterceptor implements NestInterceptor {
@@ -21,15 +19,18 @@ export class GlobalResponseInterceptor implements NestInterceptor {
     const status = response.statusCode;
     const method = request.method;
     return next.handle().pipe(
+      tap(() => {
+        if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+          const [domainKey, token] = this.redis.makeToken(request);
+          this.redis.update(domainKey);
+          console.log('Tag based update!');
+          request.redisToken = token;
+        }
+      }),
       tap((data) => {
         if (method === 'GET') {
-          console.log('Cache Save');
-          const token = this.redis.makeToken(request);
-          this.redis.client.setex(
-            token,
-            DEFAULT_EXPIRATION,
-            JSON.stringify(data),
-          );
+          const [domainKey, token] = this.redis.makeToken(request);
+          this.redis.save(domainKey, token, data);
         }
       }),
       map((data) => SuccessResponseFormat(status, data)),

@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from '@auth/jwt-auth.guard';
 import { CommonConf } from '@config/commonConf';
 import { SecretConf } from '@config/secretConf';
 import { LoggerService } from '@logger/logger.service';
@@ -5,7 +6,7 @@ import { GlobalExceptionFilter } from '@middleware/global-exception.filter';
 import { GlobalResponseInterceptor } from '@middleware/global-response.interceptor';
 import { PermissionGuard } from '@middleware/permission.guard';
 import { VersioningType } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
@@ -15,6 +16,7 @@ import session from 'express-session';
 import { AppModule } from './app.module';
 import { CommonService } from './common/common.service';
 import { RedisService } from './database/redis.service';
+import { JwtService } from '@nestjs/jwt';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -28,6 +30,8 @@ async function bootstrap() {
   const logger = app.get(LoggerService);
   const loggerService = await app.resolve(LoggerService);
   const redisService = app.get(RedisService);
+  const reflector = app.get(Reflector);
+  const jwtService = app.get(JwtService);
 
   app.enableCors({
     origin: commonService.allowOrigins,
@@ -47,6 +51,7 @@ async function bootstrap() {
   app.useGlobalGuards(new PermissionGuard(loggerService));
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalInterceptors(new GlobalResponseInterceptor(redisService));
+  app.useGlobalGuards(new JwtAuthGuard(reflector, jwtService));
 
   /* Swagger Docs */
   const config = new DocumentBuilder()

@@ -5,11 +5,13 @@ import { LocalAuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { Public } from './is-public.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @LocalAuthGuard()
   @Post('login')
   login(@Body() createAuthDto: LoginAuthDto) {

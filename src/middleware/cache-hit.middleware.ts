@@ -7,14 +7,15 @@ export class CacheHitMiddleware implements NestMiddleware {
   constructor(private readonly redis: RedisService) {}
 
   async use(req: Request, res: Response, next: () => void) {
-    const token = this.redis.makeToken(req);
+    const [domainKey, token] = this.redis.makeToken(req);
     const cachedValue = await this.redis.client.get(token);
     if (cachedValue) {
-      console.log('Cache Hit');
+      this.redis.checkRedis(domainKey, token);
+      console.log('Cache Hit', domainKey, token);
       res.json(JSON.parse(cachedValue));
       return;
     }
-    console.log('Cache Miss');
+    console.log('Cache Miss', domainKey, token);
     req.redisToken = token;
     next();
   }

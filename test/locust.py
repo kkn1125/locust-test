@@ -1,7 +1,5 @@
 from locust import HttpUser, task
 
-baseUrl = "http://localhost:8080/api"
-
 
 class HelloWorldUser(HttpUser):
     @task
